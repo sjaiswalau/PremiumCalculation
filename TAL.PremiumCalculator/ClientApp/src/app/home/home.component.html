@@ -1,0 +1,58 @@
+
+<form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+  <table>
+
+    <tr>
+      <td>Name</td>
+      <td>
+        <input type="text" [(ngModel)]="user.name" #name="ngModel" name="name" class="form-control" [ngClass]="{ 'is-invalid': f.submitted && name.invalid }" required />
+        <div *ngIf="f.submitted && name.invalid && name.invalid" class="invalid-feedback">
+          <div *ngIf="name.errors.required">Name is required</div>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>Date Of Birth</td>
+      <td>
+        <input type="date" [(ngModel)]="user.dateOfBirth" #dateOfBirth="ngModel" name="dateOfBirth" class="form-control" [ngClass]="{ 'is-invalid': f.submitted && dateOfBirth.invalid }" value="{{ user.dateOfBirth | date: 'yyyy-MM-dd' }}" required />
+        <div *ngIf="f.submitted && dateOfBirth.invalid" class="invalid-feedback">
+          <div *ngIf="dateOfBirth.errors.required">Date Of Birth is required</div>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>Occupation</td>
+      <td>
+        <select id="occupation" [(ngModel)]="user.occupation" #occupation="ngModel" name="occupation" class="form-control"
+                [ngClass]="{ 'is-invalid': f.submitted && occupation.invalid }" (change)="onSubmit()" required>
+          <option *ngFor="let o of occupationList" value="{{o.id}}">
+            {{o.occupation}}
+          </option>
+        </select>
+        <div *ngIf="f.submitted && occupation.invalid" class="invalid-feedback">
+          <div *ngIf="occupation.errors.required">Occupation is required</div>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>Death - Sum Insured</td>
+      <td>
+        <input type="number" [(ngModel)]="user.deathAmount" min="1" #deathAmount="ngModel" name="deathAmount" class="form-control" [ngClass]="{ 'is-invalid': f.submitted && deathAmount.invalid }" required />
+        <div *ngIf="f.submitted && deathAmount.invalid" class="invalid-feedback">
+          <div *ngIf="deathAmount.errors.required">Death-Sum Insured is required</div>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type="submit" class="btn btn-primary" value="submit"/>
+      </td>
+    </tr>
+    <tr *ngIf="isShowMsg">
+      <td colspan="2">
+        <h2 style="color:green">Your Premium Amount = {{premiumAmount | currency: 'USD'}}</h2>
+      </td>
+    </tr>
+
+  </table>
+</form>
